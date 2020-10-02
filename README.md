@@ -79,6 +79,9 @@ This project requires a dataframe with observations (rows) and variables (column
 Generally, for the Latent Class Analysis, all variables should be categorical (or discrete, but that is not advised). However, it is allowed to have continuous variables in the dataframe, but exclude them from the analysis. Alternatively, as is already done in the script for age and BMI, the continuous variables can be converted into categorical variables. For age this is done rather arbitrarily in the script, and might depend on the data. For BMI the three WHO-classes of `<25`, `25-29` and `>30` are used. To change the categories for other variables, the script should be adapted.\
 The coding of the variables could create problems if the dataframe is not loaded correctly. To this end, review the code and see if everything is according the dataset loaded, since for now, there is no other way to solve this problem yet.
 
+### Example
+In the folder `data/raw` an example-dataset is included, for which the entire script should work. Unfortunately, this is a random dataset and therefore interpretation will make no sense, neither does the choice for the number of clusters, but this dataset might be useful for debugging and reproducing the script. In the future a better dataset should become available.
+
 
 ## Future improvements
 
@@ -111,6 +114,7 @@ In this first version only one script is made, which does several things and pro
   - Another clustering analysis to compare;
   - Comparison of the two clustering algorithms using metrics and visualization;
   - Additional analyses to follow-up on this clusters.
+* Update example dataset, so it can be used for interpretation as well.
 
 
 ## License
