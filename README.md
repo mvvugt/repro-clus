@@ -48,12 +48,13 @@ Or alternatively, if you are not familiar with github, click on the green **code
 
 ## Dependencies
 
-It is recommended to use this project in R version 4.0.2 (2020-06-22) -- "Taking Off Again" as it was developed and tested in this setting.
-Furthermore, everything is performed on a MacOS Catalina 10.15.6, but theoretically everything should also work on any other system. Shortly, the system and program versions:
+It is recommended to use this project in _R version 4.0.2 (2020-06-22) -- "Taking Off Again"_ as it was developed and tested in this setting.\
+Furthermore, everything is performed on a _MacOS Catalina 10.15.6_, but theoretically everything should also work on any other system. \
+Shortly, the system and program versions:
 
-R version 4.0.2 (2020-06-22)
-Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Catalina 10.15.6
+R version 4.0.2 (2020-06-22)\
+Platform: x86_64-apple-darwin17.0 (64-bit)\
+Running under: macOS Catalina 10.15.6\
 
 
 In the beginning of the script, all required packages are downloaded and loaded automatically. However, to control for different versions, the required packages and their versions are listed here as well (obtained from using the function `sessionInfo()`):
@@ -75,9 +76,42 @@ other attached packages:
 This project requires a dataframe with observations (rows) and variables (columns).
 
 ### Variables
-Generally, for the Latent Class Analysis, all variables should be categorical (or discrete, but that is not advised). However, it is allowed to have continuous variables in the dataframe, but exclude them from the analysis. Alternatively, as is already done in the script for age and BMI, the continuous variables can be converted into categorical variables. For age this is done rather arbitrarily in the script, and might depend on the data. For BMI the three WHO-classes of `<25`, `25-29` and `>30` are used. To change the categories for other variables, the script should be adapted.
+Generally, for the Latent Class Analysis, all variables should be categorical (or discrete, but that is not advised). However, it is allowed to have continuous variables in the dataframe, but exclude them from the analysis. Alternatively, as is already done in the script for age and BMI, the continuous variables can be converted into categorical variables. For age this is done rather arbitrarily in the script, and might depend on the data. For BMI the three WHO-classes of `<25`, `25-29` and `>30` are used. To change the categories for other variables, the script should be adapted.\
+The coding of the variables could create problems if the dataframe is not loaded correctly. To this end, review the code and see if everything is according the dataset loaded, since for now, there is no other way to solve this problem yet.
 
-### No idea yet
+
+## Future improvements
+
+### Automatization
+As of now, the script still needs a lot of input from the user, but this should become automated in the future. To that end, a configuration-file will be created in which the user changes some parameters and the script will do the rest automatically. Some features that need to be changed for this:\
+
+* Parameter for including/excluding variables from analysis;
+* Automatically converting continuous variables into categories specified by the user;
+* Automatic choice of the best model (number of clusters);
+* Make graphs of different variables, specified by user;
+* Option to run several models, including different variables.
+
+### Reorganization
+In this first version only one script is made, which does several things and produces little output. This script should be divided into several scripts and should output more data. Some ideas for now:
+
+* Seperate Characteristics table into new script;
+  - One for general characteristics table, before any analysis;
+  - One for characteristics table of all individuals and variables as included in the analysis;
+  - One for characteristics table after performing analysis, stratified by clusters.
+* Make script solely for the LCA;
+  - Script chooses number of clusters and performs cluster analysis on this;
+  - Script should also compute the graphs already mentioned;
+  - Script should output all graphs and dataset after analysis (including the probabilites etc.).
+* Add a script for data cleaning, containing at least:
+  - Sanity checks, to see if the variables are categorical;
+  - A way to correctly code the data;
+  - A method of data conversion if continuous variables should become categories;
+  - Data output.
+* Expansion of the project;
+  - Another clustering analysis to compare;
+  - Comparison of the two clustering algorithms using metrics and visualization;
+  - Additional analyses to follow-up on this clusters.
+
 
 ## License
 
