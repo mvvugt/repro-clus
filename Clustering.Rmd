@@ -28,78 +28,33 @@ Today_Report <- format(as.Date(as.POSIXlt(Sys.time())), "%A, %B %d, %Y")
 ```
 
 
-_Set locations and working directories_
-```{r LocalSystem, echo = FALSE}
+_Installing packages_
+```{r Installations, warning=TRUE, include=FALSE}
 
-### Change these paths accordingly, without the backslash at the end!
-ROOT_loc <- "/Volumes/home"
-PROJECT_loc <- paste0(ROOT_loc, "/Side-projects/ReproClus/repro-clus")
-
-# If using the cookiecutter set-up, these should be fine, otherwise change accordingly
-DATA_in <- paste0(PROJECT_loc, "/data/raw")
-DATA_temp <- paste0(PROJECT_loc, "/data/temp")
-DATA_out <- paste0(PROJECT_loc, "/data/processed")
-
-CONFIG_loc <- paste0(PROJECT_loc, "/config")
-
-OUT_loc <- paste0(PROJECT_loc, "/results/output")
-FIG_loc <- paste0(PROJECT_loc, "/results/figures")
+source("src/Packages.R")
 
 ```
 
+_Function to make binary variables_
+```{r Binary function}
 
-_A package-installation function_
-```{r Function: installations}
-
-library(docstring)
-
-install.packages.auto <- function(x) {
-  #' @title Install and load packages
-  #' @description This function installs and loads packages automatically.
-  #' @param x The name of the package, using quotes.
-  #' @return A text message specifying whether installing and loading of the package 
-  #' was successful.
-  
-  x <- as.character(substitute(x))
-  if (isTRUE(x %in% .packages(all.available = TRUE))) { 
-    eval(parse(text = sprintf("require(\"%s\")", x)))
-  } else { 
-    # Update installed packages - this may mean a full upgrade of R, which in turn
-    # may not be warrented. 
-    # update.packages(ask = FALSE) 
-    eval(parse(text = sprintf("install.packages(\"%s\", dependencies = TRUE, repos = \"http://cran-mirror.cs.uu.nl/\")", x)))
+makeBin <- function(x, y) {
+  x[, y] <- as.factor(x[, y])
+  for (nrow in 1:nrow(x)) {
+    if (x[nrow, y] == "no") {
+      x[nrow, y] <- 1
+    } else if (x[nrow, y] == "yes") {
+      x[nrow, y] <- 2
+    } else if (is.na(x[nrow, y])) {
+      x[nrow, y] <- NA
+    } else {
+      warning(paste0("No yes/no/NA data in row ", nrow))
+    }
   }
-  if (isTRUE(x %in% .packages(all.available = TRUE))) { 
-    eval(parse(text = sprintf("require(\"%s\")", x)))
-  } else  {
-    source("http://bioconductor.org/biocLite.R")
-    # Update installed packages - this may mean a full upgrade of R, which in turn
-    # may not be warrented.
-    #biocLite(character(), ask = FALSE) 
-    eval(parse(text = sprintf("biocLite(\"%s\")", x)))
-    eval(parse(text = sprintf("require(\"%s\")", x)))
-  }
-  return(paste0(x, " is installed and loaded correctly"))
+  return(x)
 }
-```
-
-
-
-_Load those packages_
-```{r loading_packages}
-
-install.packages.auto("readr")
-install.packages.auto("dplyr")
-install.packages.auto("tableone")
-install.packages.auto("haven")
-install.packages.auto("poLCA")
-install.packages.auto("ggplot2")
-install.packages.auto("data.table")
-install.packages.auto("reshape2")
 
 ```
-
-
 ## Cohort characteristics
 
 Before starting analysis, we want to have an overview of the cohort characteristics. To that end, a table is created including the overall and per-cohort characteristics of the variables available so far. 
@@ -108,16 +63,18 @@ _Load data and create categorical variables for Age and BMI_
 ```{r Load data, include=FALSE}
 
 # Start with the data created for this script (Dummy data in this example)
-data <- read_delim(paste0(DATA_in, "/data.csv"), ";",
+data <- read_delim("data/raw/data.csv", ";",
                    escape_double = FALSE, 
                    col_types = cols(Sex = col_factor(levels = c("M","F")), 
-                                    Hypertension = col_factor(levels = c("yes", "no")), 
-                                    Isch = col_factor(levels = c("yes", "no")), 
                                     HFrEF = col_factor(levels = c("HFrEF", "HFpEF")), 
-                                    CABG = col_factor(levels = c("yes", "no")), 
-                                    Diabetes = col_factor(levels = c("yes", "no")),
                                     Cohort = col_factor(levels = c("Cohort1", "Cohort2"))), 
                    trim_ws = TRUE)
+
+data <- makeBin(data, "Hypertension")
+data <- makeBin(data, "Isch")
+data <- makeBin(data, "CABG")
+data <- makeBin(data, "Diabetes")
+
 str(data)
 
 # The latent class analysis only accepts categorical data, 

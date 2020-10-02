@@ -50,14 +50,14 @@ Or alternatively, if you are not familiar with github, click on the green **code
 
 It is recommended to use this project in _R version 4.0.2 (2020-06-22) -- "Taking Off Again"_ as it was developed and tested in this setting.\
 Furthermore, everything is performed on a _MacOS Catalina 10.15.6_, but theoretically everything should also work on any other system. \
-Shortly, the system and program versions:
+Shortly, the system and program versions this project was developed and tested on:
 
 R version 4.0.2 (2020-06-22)\
 Platform: x86_64-apple-darwin17.0 (64-bit)\
-Running under: macOS Catalina 10.15.6\
+Running under: macOS Catalina 10.15.6
 
 
-In the beginning of the script, all required packages are downloaded and loaded automatically. However, to control for different versions, the required packages and their versions are listed here as well (obtained from using the function `sessionInfo()`):
+In the beginning of the script, all required packages are downloaded and loaded automatically. However, if this does not work and to control for different versions, the required packages and their versions are listed here as well (obtained from using the function `sessionInfo()`):
 
 ```
 attached base packages:
@@ -71,6 +71,8 @@ other attached packages:
 
 
 ## Usage
+
+To start working, open the R-project located in the main folder and (if necessary) load the R-script Clustering.Rmd. As also mentioned below, some user input is still required, but this should all be clear when reading the R-markdown.
 
 ### Dataframe
 This project requires a dataframe with observations (rows) and variables (columns).
@@ -121,6 +123,12 @@ In this first version only one script is made, which does several things and pro
 
 This project is licensed under the terms of the [MIT License](/LICENSE.md)
 
+
 ## Citation
 
 Please [cite this project as described here](/CITATION.md).
+
+
+## Contact information
+
+If something is not clear, to obtain more information or for future collaborations, please contact me at: m.vanvugt-2@umcutrecht.nl.
