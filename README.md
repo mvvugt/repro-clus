@@ -74,7 +74,7 @@ other attached packages:
 ### Dataframe
 This project requires a dataframe with observations (rows) and variables (columns).
 
-### Variables
+_Variables_
 Generally, for the Latent Class Analysis, all variables should be categorical (or discrete, but that is not advised). However, it is allowed to have continuous variables in the dataframe, but exclude them from the analysis. Alternatively, as is already done in the script for age and BMI, the continuous variables can be converted into categorical variables. For age this is done rather arbitrarily in the script, and might depend on the data. For BMI the three WHO-classes of `<25`, `25-29` and `>30` are used. To change the categories for other variables, the script should be adapted.
 
 ### No idea yet
