@@ -50,7 +50,16 @@ FIG_loc <- paste0(PROJECT_loc, "/results/figures")
 
 _A package-installation function_
 ```{r Function: installations}
+
+library(docstring)
+
 install.packages.auto <- function(x) {
+  #' @title Install and load packages
+  #' @description This function installs and loads packages automatically.
+  #' @param x The name of the package, using quotes.
+  #' @return A text message specifying whether installing and loading of the package 
+  #' was successful.
+  
   x <- as.character(substitute(x))
   if (isTRUE(x %in% .packages(all.available = TRUE))) { 
     eval(parse(text = sprintf("require(\"%s\")", x)))
@@ -70,8 +79,10 @@ install.packages.auto <- function(x) {
     eval(parse(text = sprintf("biocLite(\"%s\")", x)))
     eval(parse(text = sprintf("require(\"%s\")", x)))
   }
+  return(paste0(x, " is installed and loaded correctly"))
 }
 ```
+
 
 
 _Load those packages_
@@ -109,6 +120,8 @@ data <- read_delim(paste0(DATA_in, "/data.csv"), ";",
                    trim_ws = TRUE)
 str(data)
 
+# The latent class analysis only accepts categorical data, 
+# so convert the age and BMI into categories
 data$Age_cat <- as.factor(ifelse(data$Age <= 60, "<60",
                                  ifelse(data$Age >= 76, ">75", "60-75")))
 data$BMI_cat <- as.factor(ifelse(data$BMI <= 25, "<25",
@@ -122,13 +135,12 @@ _Create variables for table_
 
 names(data)
 
-# vector of variables to summarize
+# For the Characteristics table, we are going to make vectors for the data to be in the table, 
+# the data to be treated as categorical and nonnormal.
 myVars <- c("Cohort", "Age", "Age_cat", "Sex", "BMI", "BMI_cat", "HFrEF", "Isch",
             "Hypertension", "Diabetes", "CABG")
-# vector of categorical variables
 catVars <- c("Cohort", "Sex", "Age_cat", "BMI_cat", "HFrEF", "Isch", "Hypertension", 
              "Diabetes", "CABG")
-# vector of nonnormal variables
 nnorVars <- c("BMI")
 
 ```
@@ -136,10 +148,9 @@ nnorVars <- c("BMI")
 _Make characteristics table_
 ```{r Cohort tables, echo=FALSE, warning=FALSE}
 
-# Create table 
 tblcohort <- CreateTableOne(vars = myVars, data = data, strata = "Cohort", 
                             addOverall = TRUE, factorVars = catVars)
-# Print table and export it into csv to easily copy it to Word
+
 ex <- print(tblcohort, showAllLevels = TRUE, missing = TRUE, nonnormal = nnorVars,
       formatOptions = list(big.mark = ","), quote = FALSE, noSpaces = TRUE, printToggle = FALSE)
 ex
@@ -151,6 +162,9 @@ rm(tblcohort, ex)
 _Create final dataframe_
 ```{r Setting up dataframe, echo=FALSE}
 
+# This dataframe is created to contain only the variables that are going to be used in the 
+# Latent Class Analysis. For the dummy data, that are all variables, but in case you would
+# load data with more variables, this can be changed.
 LCA_cohort <- data[, c("ID","Sex", "Age", "Age_cat", "BMI_cat", "HFrEF", "Isch",
                       "Hypertension", "CABG", "Diabetes")]
     
