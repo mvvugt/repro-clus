@@ -2,7 +2,9 @@
 
 Version 0.1.0
 
-Clustering analysis of Heart Failure patients using reproducible code
+## Introduction
+
+This package includes a method to perform a clustering analysis on patients. For now, the analysis is performed using the `poLCA` package in R and this means it determines the number of latent (hidden) classes in the data
 
 
 ## Project organization
